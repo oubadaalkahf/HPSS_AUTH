@@ -4,9 +4,14 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
+import org.hibernate.annotations.Type;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import javax.persistence.*;
 import java.util.Collection;
@@ -30,13 +35,18 @@ public class AppUser implements UserDetails {
             strategy = GenerationType.SEQUENCE,
             generator = "student_sequence"
     )
+    @JsonIgnore
     private Long id;
+    private String email;
     private String firstName;
     private String lastName;
-    private String email;
+    
+    
+    @JsonIgnore
     private String password;
     @Enumerated(EnumType.STRING)
     private AppUserRole appUserRole;
+
     private Boolean locked = false;
     private Boolean enabled = false;
 
@@ -50,6 +60,7 @@ public class AppUser implements UserDetails {
         this.email = email;
         this.password = password;
         this.appUserRole = appUserRole;
+   
     }
 
     @Override
@@ -64,10 +75,7 @@ public class AppUser implements UserDetails {
         return password;
     }
 
-    @Override
-    public String getUsername() {
-        return email;
-    }
+   
 
     public String getFirstName() {
         return firstName;
@@ -96,4 +104,10 @@ public class AppUser implements UserDetails {
     public boolean isEnabled() {
         return enabled;
     }
+
+	@Override
+	public String getUsername() {
+		// TODO Auto-generated method stub
+		return firstName+lastName;
+	}
 }
