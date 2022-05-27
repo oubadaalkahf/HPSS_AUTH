@@ -40,6 +40,8 @@ public class AppUser implements UserDetails {
     private String email;
     private String firstName;
     private String lastName;
+    @Column(nullable = true)
+    private String fcm_token;
     
     
     @JsonIgnore
@@ -60,6 +62,7 @@ public class AppUser implements UserDetails {
         this.email = email;
         this.password = password;
         this.appUserRole = appUserRole;
+        this.fcm_token = null;
    
     }
 

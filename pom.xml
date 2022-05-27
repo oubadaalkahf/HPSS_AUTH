@@ -16,6 +16,10 @@
 	<description>Demo project for Spring Boot</description>
 	<properties>
 		<java.version>11</java.version>
+		<deploy.wildfly.host>127.0.0.1</deploy.wildfly.host>
+    <deploy.wildfly.port>9990</deploy.wildfly.port>
+    <deploy.wildfly.username>oubada</deploy.wildfly.username>
+    <deploy.wildfly.password>oubada123*</deploy.wildfly.password>
 	</properties>
 	<dependencies>
 		<!-- https://mvnrepository.com/artifact/mysql/mysql-connector-java -->
@@ -42,6 +46,12 @@
 		</dependency>
 		
 		<dependency>
+    <groupId>com.h2database</groupId>
+    <artifactId>h2</artifactId>
+    <scope>runtime</scope>
+</dependency>
+		
+		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-mail</artifactId>
 		</dependency>
@@ -61,10 +71,16 @@
 		
 		
 		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-web</artifactId>
-		</dependency>
-
+  <groupId>org.springframework.boot</groupId>
+  <artifactId>spring-boot-starter-web</artifactId>
+  <exclusions>
+      <exclusion>
+          <groupId>ch.qos.logback</groupId>
+          <artifactId>logback-classic</artifactId>
+      </exclusion>
+  </exclusions>
+</dependency>
+			
 		<dependency>
 			<groupId>org.postgresql</groupId>
 			<artifactId>postgresql</artifactId>
@@ -92,6 +108,18 @@
 	<build>
 		<finalName>hps-login</finalName>
 		<plugins>
+		
+			
+		
+		<plugin>
+    <groupId>org.wildfly.plugins</groupId>
+    <artifactId>wildfly-maven-plugin</artifactId>
+    <version>2.0.2.Final</version>
+    
+  
+</plugin>
+		
+		
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>

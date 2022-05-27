@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 
 @Repository
@@ -21,4 +22,9 @@ public interface AppUserRepository
             "SET a.enabled = 1 WHERE a.email = ?1")
     int enableAppUser(String email);
 
+  
+    @Transactional
+    @Modifying
+    @Query("SELECT u FROM AppUser u WHERE u.fcm_token IS NOT NULL")
+    List<AppUser> finAllUsers();
 }

@@ -65,7 +65,7 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 			Authentication authResult) throws IOException, ServletException {
 		
 		AppUser appUser = (AppUser) authResult.getPrincipal();
-		Algorithm algorithm = Algorithm.HMAC256("hps-secret-123*$");
+		Algorithm algorithm = Algorithm.HMAC384("hps-secret-123*$");
 		String jwtAccess = JWT.create()
 			      .withSubject(appUser.getFirstName())
 			      .withExpiresAt(new Date(System.currentTimeMillis()+5*60*1000))

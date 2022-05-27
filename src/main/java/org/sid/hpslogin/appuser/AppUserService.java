@@ -4,6 +4,10 @@ package org.sid.hpslogin.appuser;
 import lombok.AllArgsConstructor;
 import org.sid.hpslogin.registration.token.ConfirmationToken;
 import org.sid.hpslogin.registration.token.ConfirmationTokenService;
+import org.sid.hpslogin.responseHandler.ResponseHandler;
+import org.springframework.data.crossstore.ChangeSetPersister.NotFoundException;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -11,6 +15,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -72,4 +77,20 @@ public class AppUserService implements UserDetailsService {
     public int enableAppUser(String email) {
         return appUserRepository.enableAppUser(email);
     }
+    
+    public ResponseEntity<Object> addToken(String fcmToken,AppUser user) {
+		user.setFcm_token(fcmToken);
+		appUserRepository.save(user);
+		return ResponseHandler.generateResponseString("Token Saved", HttpStatus.OK);
+	}
+    
+    public ResponseEntity<Object> getUsers() {
+    	
+			List<AppUser>users= appUserRepository.finAllUsers();
+			 return ResponseHandler.generateResponse("all users", HttpStatus.OK, users)	;
+		
+    	
+    	
+    }
+    
 }

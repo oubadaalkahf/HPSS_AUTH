@@ -37,7 +37,7 @@ public class RegistrationService {
 		);
 		String token = appUserService.signUpUser(user);
 
-		String link = "http://54.176.183.194:8080/hps-login/registration/confirm?token=" + token;
+		String link = "http://localhost:8083/registration/confirm?token=" + token;
 		emailSender.send(request.getEmail(), buildEmail(request.getFirstName(), link));
 
 		return ResponseHandler.generateResponse("Registrated!", HttpStatus.OK,user);
@@ -62,6 +62,7 @@ public class RegistrationService {
 		appUserService.enableAppUser(confirmationToken.getAppUser().getEmail());
 		return ResponseHandler.generateResponseString("Email Confirmed", HttpStatus.OK);
 	}
+
 
 	private String buildEmail(String name, String link) {
 		return "<div style=\"font-family:Helvetica,Arial,sans-serif;font-size:16px;margin:0;color:#0b0c0c\">\n" + "\n"
@@ -99,4 +100,6 @@ public class RegistrationService {
 				+ "    </tr>\n" + "    <tr>\n" + "      <td height=\"30\"><br></td>\n" + "    </tr>\n"
 				+ "  </tbody></table><div class=\"yj6qo\"></div><div class=\"adL\">\n" + "\n" + "</div></div>";
 	}
+
+	
 }
